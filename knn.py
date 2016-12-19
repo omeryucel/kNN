@@ -55,6 +55,15 @@ def getAccuracy(testSet, predictions): #Summarize the accuracy of predictions.
 			correct += 1
 	return (correct/float(len(testSet))) * 100.0
 	
+	
+def saveResults(result, testSet):
+	file1.write("> predicted=" + result + " , actual=" + testSet + "\n")
+
+	
+def saveAccuracy(accuracy):
+	file2.write("Accuracy: " + repr(accuracy) + " %")
+	
+	
 def main():
 	trainingSet=[]
 	testSet=[]
@@ -68,8 +77,15 @@ def main():
 		neighbors = getNeighbors(trainingSet, testSet[x], k)
 		result = getResponse(neighbors)
 		predictions.append(result)
-		print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
+		saveResults(repr(result), repr(testSet[x][-1]))
+		print('> predicted=' + repr(result) + ' , actual=' + repr(testSet[x][-1]))
 	accuracy = getAccuracy(testSet, predictions)
-	print('Accuracy: ' + repr(accuracy) + '%')
-	
+	saveAccuracy(accuracy)
+	print('Accuracy: ' + repr(accuracy) + ' %')
+
+
+file1 = open('results.txt', 'w')
+file2 = open('accuracy.txt', 'w')	
 main()
+file1.close()
+file2.close()
